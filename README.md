@@ -60,6 +60,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 ## Installation
 
+Aqui estao os passos que você precisa para instalar as dependencias.
 Here are the steps you need to follow to install the dependencies.
 
 1. Download and extract the template from Next.js Templates.
