@@ -71,7 +71,7 @@ model Tasks {
   draggableId   String     @unique
   author        User       @relation(fields: [authorId], references: [id])
   authorId      String     
-  qntCheck      Int
+  qntCheck      Int        
   status        String     
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt

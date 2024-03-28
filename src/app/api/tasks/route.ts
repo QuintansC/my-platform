@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   } else {
     return new NextResponse(
       JSON.stringify({
-        message: "Task já existems",
+        message: "Task já existem",
       }),
       {
         status: 302,
