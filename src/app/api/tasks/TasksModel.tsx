@@ -8,14 +8,15 @@ interface Tasks {
     draggableId: string,    
     authorId: string,
     qntCheck: number,
+    status: string,
     createdAt: Date, 
     updatedAt: Date  
 }
 
-async function createTask(user: Tasks) {
+async function createTask(tasks: Tasks) {
     const createdTasks: Tasks = await prisma.tasks.create({
         data: {
-            ...user
+          ...tasks
         }
     });
 
@@ -23,7 +24,8 @@ async function createTask(user: Tasks) {
 }
 
 async function getTaskById(id: string) {
-    const tasks = await prisma.tasks.findUnique({
+    console.log(id)
+    const tasks = await prisma.tasks.findMany({
         where: {
             id_task: id
         }

@@ -7,32 +7,11 @@ import { useState } from 'react';
 import IconPlus from '../../../../public/images/icon/icon-plus.svg';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import DraggableItem from '@/components/Dnd/DragabbleItem';
+import { getTaskById } from '@/app/api/tasks/TasksModel';
 
 const KanbanComponent = () => {
 
-    const [column1, setColumn1] = useState([
-        {
-            index: 0,
-            draggableId: 'task3',
-            qntCheck: 2,
-        },
-        {
-            index: 1,
-            draggableId: 'task17',
-            qntCheck: 3,
-        },
-        {
-            index: 2,
-            draggableId: 'task28',
-            qntCheck: 1,
-        },
-        {
-            index: 3,
-            draggableId: 'task39',
-            qntCheck: 0,
-        },
-    ]);
-
+    const [column1, setColumn1] = useState(getTaskById('12'))
 
     const [column2, setColumn2] = useState([
         {
@@ -82,9 +61,9 @@ const KanbanComponent = () => {
     
 
      const reorder = (list: any, startIndex: number, endIndex: number): any => {
-            const result = Array.from(list);
-            const [removed] = result.splice(startIndex, 1);
-            result.splice(endIndex, 0, removed);
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
 
         return result;
     };
@@ -144,9 +123,9 @@ const KanbanComponent = () => {
                                             {...provided.droppableProps} 
                                         >
                                             {provided.placeholder}
-                                            {column1?.map((e, index)=>{
+                                            {/* {column1?.map((e, index)=>{
                                                 return <DraggableItem  key={e.index + "s"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
-                                            })}
+                                            })} */}
                                         </ul>
                                     )} 
                                 </Droppable>                                

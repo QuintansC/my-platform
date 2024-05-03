@@ -1,22 +1,13 @@
-import { createTask, getTaskById } from "./TasksModel";
+import { createTask } from "./TasksModel";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { data }: any = await request.json();
-
-  const userExists = await getTaskById(data.email);
-  if (!userExists) {
-    const cadastrar = await createTask(data);
-    return NextResponse.json(cadastrar);
-  } else {
-    return new NextResponse(
-      JSON.stringify({
-        message: "Task já existem",
-      }),
-      {
-        status: 302,
-        statusText: "Usuario já existe na base",
-      },
-    );
-  }
+  const data = await request.json();
+  const task = await createTask(data);
+  return NextResponse.json(
+    JSON.stringify({
+      message: "Task criada com sucesso",
+      task,
+    }),
+  );
 }
