@@ -24,10 +24,9 @@ async function createTask(tasks: Tasks) {
 }
 
 async function getTaskById(id: string) {
-    console.log(id)
     const tasks = await prisma.tasks.findMany({
         where: {
-            id_task: id
+            authorId: id
         }
     });
 
