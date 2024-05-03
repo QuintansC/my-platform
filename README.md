@@ -16,15 +16,13 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [x] Chat Page
 - [x] Backend
 - [x] Dockerizar dependencias
+- [x] Prisma
 - [ ] Implentar funcionalidades das tasks
 - [ ] Implementar Funcionalidades
 - [ ] Backend
 - [ ] Dockerizar dependencias
-
 - [ ] KanBan
-
-- [ ] Inserir funcionalidades
-- [x] Prisma
+- [ ] To do List
 
 # Indices da aplicação
 
