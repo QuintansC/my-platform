@@ -76,7 +76,7 @@ or
 yarn install
 ```
 
-2. Now run this command to start the developement server
+2. Agora rode o comando para iniciar o servidor de desenvolvimento
 
 ```
 npm run dev
