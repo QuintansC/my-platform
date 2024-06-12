@@ -60,12 +60,11 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 ## Installation
 
-Aqui estao os passos que você precisa para instalar as dependencias.
-Here are the steps you need to follow to install the dependencies.
+- Aqui estao os passos que você precisa para instalar as dependencias.
 
-1. Download and extract the template from Next.js Templates.
+- Here are the steps you need to follow to install the dependencaies.
 
-2. After that **cd** into the template directory then run this command to install all the dependencies
+1. After that **cd** into the template directory then run this command to install all the dependencies
 
 ```
 npm install
@@ -77,7 +76,7 @@ or
 yarn install
 ```
 
-3. Now run this command to start the developement server
+2. Now run this command to start the developement server
 
 ```
 npm run dev
