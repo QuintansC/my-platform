@@ -19,6 +19,11 @@ const config: Config = {
       ...defaultTheme.screens,
     },
     extend: {
+      invert: {
+        0.9: '.9',
+        0.5: '.5',
+        0.6: '.65',
+      },
       colors: {
         current: "currentColor",
         transparent: "transparent",
