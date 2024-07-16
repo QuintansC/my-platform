@@ -1,14 +1,10 @@
 # Recriando o Interface do Trello
 
-Inteface de plataforma
-
-<h4 align="center"> 
-	🚧  React Kanban 🚀 Em construção...  🚧
-</h4>
+Inteface de plataforma utilizando NextJS e Prisma
 
 ### Em desenvolvimento
 
-- [x] Dashboard
+- [x] Kanban
 
 ### Features
 

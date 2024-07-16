@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next.js SignUp Page | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js SignUp Page TailAdmin Dashboard Template",
+  title: "Next.js SignUp Page | ArtFlame - Next.js Dashboard Template",
+  description: "This is Next.js SignUp Page ArtFlame Dashboard Template",
   // other metadata
 };
 
@@ -167,7 +167,7 @@ const SignUp: React.FC = () => {
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign Up to TailAdmin
+                Sign Up to ArtFlame
               </h2>
 
               <form>
