@@ -5,9 +5,8 @@ import ClickOutside from "@/components/ClickOutside";
 import { signOut, useSession } from "next-auth/react";
 
 const DropdownUser = () => {
-  const session = useSession()
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const session = useSession()
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link

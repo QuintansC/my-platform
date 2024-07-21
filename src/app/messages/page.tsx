@@ -3,8 +3,8 @@ import DefaultLayout from '@/components/Layouts/DefaultLayout';
 import Image from 'next/image';
 import React from 'react';
 
-import YouMessage from './balons/you';
-import MeMessage from './balons/me';
+import YouMessage from '../../components/Chat/Bubble/you';
+import MeMessage from '../../components/Chat/Bubble/me';
 
 const Messages = () => {
     return (

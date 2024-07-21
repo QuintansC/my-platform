@@ -1,14 +1,13 @@
 'use client'
-
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
-
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Link from "next/link";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useSession } from "next-auth/react";
 
 const Profile = () => {
-  const session = useSession();
+  const session = useSession()
+
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-242.5">

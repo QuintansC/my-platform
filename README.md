@@ -81,3 +81,11 @@ or
 ```
 yarn dev
 ```
+
+# Comandos para utilitarios
+
+-Para rodar as migration
+
+```
+npx prisma migrate dev --name init
+```

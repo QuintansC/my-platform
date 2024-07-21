@@ -4,14 +4,18 @@ import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import IconPlus from '../../../../public/images/icon/icon-plus.svg';
-import IconCorrect from '../../../../public/images/icon/icon-correct.svg';
 import MoreOptions from '@/components/MoreOptions/MoreOptions';
 
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+import DraggableItem from '@/components/Dnd/DragabbleItem';
+
 const KanbanComponent = () => {
-    const session = useSession();
+    const onDragEnd = () => {
+
+    }
     return (
         <DefaultLayout>
             <div className="container pt-10 pb-10 pl-30 pr-30">
@@ -48,61 +52,43 @@ const KanbanComponent = () => {
                     <div className="mt-9 grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3">
                         <div className='swim-lane flex flex-col gap-5.5'>
                             <h4 className="text-xl font-semibold text-black dark:text-white">To do (3)</h4>
-                            <div draggable className="task relative flex cursor-move justify-between rounded-sm border border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <MoreOptions/>
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="taskCheckbox1" className="cursor-pointer">
-                                        <div className="relative flex items-center pt-0.5">
-                                            <input id="taskCheckbox1" className="taskCheckbox sr-only" type="checkbox" />
-                                            <div className="box mr-3 flex h-5 w-5 items-center justify-center rounded border border-stroke dark:border-strokedark dark:bg-boxdark-2">
-                                                <span className="text-white opacity-0">
-                                                    <Image
-                                                        src={IconCorrect}
-                                                        alt="Logo"
-                                                        width={10}
-                                                        height={10}
-                                                    />
-                                                </span>
-                                            </div>
-                                            <p>Here is task one</p>
-                                        </div>
-                                    </label>
-                                    <label htmlFor="taskCheckbox2" className="cursor-pointer">
-                                        <div className="relative flex it ems-center pt-0.5">
-                                            <input id="taskCheckbox2" className="taskCheckbox sr-only" type="checkbox" />
-                                            <div className="box mr-3 flex h-5 w-5 items-center justify-center rounded border border-stroke dark:border-strokedark dark:bg-boxdark-2">
-                                                <span className="text-white opacity-0">
-                                                    <Image
-                                                        src={IconCorrect}
-                                                        alt="Logo"
-                                                        width={10}
-                                                        height={10}
-                                                    />
-                                                </span>
-                                            </div>
-                                            <p>Here is task one</p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div draggable className="task relative flex cursor-move justify-between rounded-sm border border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <MoreOptions/>
-                            </div>
-                            <div draggable className="task relative flex cursor-move justify-between rounded-sm border border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <MoreOptions/>
-                            </div>
+                            <DragDropContext onDragEnd={onDragEnd}>
+                                <Droppable droppableId="tasks">
+                                    {(provided) => (
+                                        <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                            {provided.placeholder}
+                                            <DraggableItem key={1} draggableId="ta" qntCheck={1}/>
+                                            <DraggableItem key={3} draggableId="task" qntCheck={4}/>
+                                            <DraggableItem key={2} draggableId="tasks" qntCheck={3}/>
+                                        </ul>
+                                    )}
+                                </Droppable>
+                            </DragDropContext>
                         </div>
+
+                    
                         <div className='swim-lane flex flex-col gap-5.5'>
                             <h4 className="text-xl font-semibold text-black dark:text-white">In Progress (1)</h4>
                             <div draggable className="task relative flex cursor-move justify-between rounded-sm border border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
                                 <MoreOptions/>
                             </div>
                         </div>
-                         <div className='swim-lane flex flex-col gap-5.5'>
+                        <div className='swim-lane flex flex-col gap-5.5'>
                             <h4 className="text-xl font-semibold text-black dark:text-white">Completed (1)</h4>
-                            <div draggable className="task relative flex cursor-move justify-between rounded-sm border border-stroke bg-white p-7 shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <MoreOptions/>
-                            </div>
+                             <DragDropContext onDragEnd={onDragEnd}>
+                                <Droppable 
+                                    type="COLUMN"
+                                    direction="horizontal"
+                                    droppableId="tasks"
+                                >
+                                    {(provided) => (
+                                        <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                            {provided.placeholder}
+                                            <DraggableItem key={4} draggableId="tasks" qntCheck={1}/>
+                                        </ul>
+                                    )}
+                                </Droppable>
+                            </DragDropContext>
                         </div>
                     </div>
                     <div className='swim-lane flex flex-col gap-5.5'>
