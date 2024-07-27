@@ -1,4 +1,4 @@
-# Recriando o Interface do Trello
+# Criando interface de plataforma
 
 Inteface de plataforma utilizando NextJS e Prisma
 
