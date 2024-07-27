@@ -1,10 +1,24 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 
 const SignIn: React.FC = () => {
+
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
+  })
+
+  const setEmail = (email: string) => {
+    setUser(prevState => ({ ...prevState, email }))
+  }
+
+  const setPassword = (password: string) =>{
+    setUser(prevState => ({ ...prevState, password }))
+  }
+
   return (
     <div className="flex items-center justify-center h-[100vh]">
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -172,6 +186,8 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
+                      value={user.email}
+                      onChange={(e)=>setEmail(e.target.value)}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -203,6 +219,8 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
+                      value={user.password}
+                      onChange={(e)=>setPassword(e.target.value)}
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -235,8 +253,12 @@ const SignIn: React.FC = () => {
                 <div className="mb-5">
                   <button
                     type="button"
-                    
-                    onClick={()=>signIn("credentials", { callbackUrl: '/dashboard'})}
+                    onClick={()=>signIn("credentials", { 
+                      email: user.email, 
+                      password: user.password, 
+                      callbackUrl: '/dashboard', 
+                      
+                    })}
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   >
                     Sign In

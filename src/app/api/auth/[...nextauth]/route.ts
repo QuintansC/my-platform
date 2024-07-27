@@ -8,44 +8,28 @@ import CredentialsProviders from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../../../../../lib/prisma";
 
-import { cookies } from "next/headers";
-
 const handler = NextAuth({
   pages: {
     signIn: "/auth/signin",
     error: "/auth/signin",
   },
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProviders({
-      id: "credentials",
-      name: "credentials",
-      async authorize(credentials, req) {
-        const userCredentials = {
-          email: credentials?.email,
-          password: credentials?.password,
-        };
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/user/login`,
-          {
-            method: "POST",
-            body: JSON.stringify(userCredentials),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-        const user = await res.json();
-
-        if (res.ok && user) {
-          return user;
-        } else {
-          return null;
-        }
-      },
+      name: "login",
       credentials: {
         email: { label: "email", type: "email ", placeholder: "email" },
         password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        const user = await prisma.user.findUnique({
+          where: { email: credentials?.email },
+        });
+
+        if (user && user.password === credentials?.password) {
+          return user;
+        }
+        return null;
       },
     }),
     GithubProviders({
@@ -59,7 +43,6 @@ const handler = NextAuth({
       allowDangerousEmailAccountLinking: true,
     }),
   ],
-  adapter: PrismaAdapter(prisma),
 
   secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
@@ -70,14 +53,21 @@ const handler = NextAuth({
   },
 
   callbacks: {
-    async session({ session, user }) {
-      if (session !== null) {
-        //cookies().set("userLogged", JSON.stringify(session.user));
-      }
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+
+    async session({ session, token, user }) {
       return session;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, account }) {
+      if (account) {
+        token.access_token = account.access_token;
+      }
+
       return token;
     },
   },

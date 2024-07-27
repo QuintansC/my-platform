@@ -11,7 +11,7 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const session = useSession();
+  const {data: session} = useSession();
   if (!session) {
     return redirect("/auth/signin");
   }
