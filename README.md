@@ -14,7 +14,7 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [x] Login
 - [x] Dashboard
 - [x] Chat Page
-- [ ] Backend
+- [x] Backend
 - [ ] Inserir funcionalidades
 - [ ] KanBan
 
