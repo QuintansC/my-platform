@@ -32,10 +32,10 @@ async function getUserByEmail(emails: string): Promise<Users> {
     return user;
 }
 
-async function updateUser(id: string, data: Partial<Users>): Promise<Users> {
+async function updateUser(email: string, data: Partial<Users>): Promise<Users> {
     const updatedUser: Users = await prisma.user.update({
         where: {
-            id,
+            email,
         },
         data,
     });
