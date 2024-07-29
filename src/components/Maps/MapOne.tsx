@@ -2,22 +2,22 @@
 import jsVectorMap from "jsvectormap";
 import "jsvectormap/dist/jsvectormap.css";
 import React, { useEffect } from "react";
-import "../../js/us-aea-en";
+import "../../js/brasil";
 
 const MapOne: React.FC = () => {
   useEffect(() => {
     const mapOne = new jsVectorMap({
       selector: "#mapOne",
-      map: "us_aea_en",
+      map: "brasil",
       zoomButtons: true,
 
       regionStyle: {
         initial: {
-          fill: "#C8D0D8",
+          fill: "#263830",
         },
         hover: {
           fillOpacity: 1,
-          fill: "#3056D3",
+          fill: "#ff582b",
         },
       },
       regionLabelStyle: {
