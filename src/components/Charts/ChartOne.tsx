@@ -76,7 +76,7 @@ const options: ApexOptions = {
   markers: {
     size: 4,
     colors: "#fff",
-    strokeColors: ["#3056D3", "#80CAEE"],
+    strokeColors: ["#ff582b", "#80CAEE"],
     strokeWidth: 3,
     strokeOpacity: 0.9,
     strokeDashArray: 0,
