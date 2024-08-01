@@ -4,10 +4,7 @@ import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Session } from "next-auth";
-import { blob } from "stream/consumers";
-
+import { useState } from "react";
 
 const Profile = () => {
   const { update, data } = useSession()
