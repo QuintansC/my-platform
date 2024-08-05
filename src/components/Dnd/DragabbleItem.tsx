@@ -22,7 +22,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({qntCheck, draggableId, key
                     <div className="flex flex-col gap-2">
                         {
                             Array.from({ length: qntCheck }, (_, index) => (
-                                <Checkbox key={index} label='Here is task one'/>
+                                <Checkbox key={index} id={`${Math.random()}-checkbox-${index}`} label='Here is task one'/>
                             ))
                         }
                     </div>
