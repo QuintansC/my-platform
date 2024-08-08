@@ -15,6 +15,7 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [x] Dashboard
 - [x] Chat Page
 - [x] Backend
+- [x] Dockerizar dependencias
 - [ ] Inserir funcionalidades
 - [ ] KanBan
 
@@ -84,8 +85,20 @@ yarn dev
 
 # Comandos para utilitarios
 
--Para rodar as migration
+- Para rodar as migration
 
 ```
 npx prisma migrate dev --name init
+```
+
+- Comando pra criar Minha Imagem Docker para Uso
+
+```
+docker run --name my-platform-node -p 3000:3000 -d my-platform
+```
+
+- Para rodar o container docker
+
+```
+docker build -t my-platform .
 ```

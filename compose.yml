@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-docker
+    environment:
+      POSTGRES_USER: ${DATABASE_NAME_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+    ports:
+      - "5433:${DATABASE_PORT}"
+      
+    expose:
+      - '5433'
+  
+  prisma:
+    container_name: prisma-my-platform
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+
+    ports:
+      - 3000:3000
+
+    command: >
+      bash -c '
+        npx prisma generate --schema prisma/schema.prisma
+        npx prisma migrate dev
+        npx prisma db push
+        yarn dev
+      '
+    depends_on:
+      - postgres
+
+    environment:
+      PRISMA_CONFIG: |
+        port: 3001
+        databases:
+          default:
+            host: ${DATABASE_HOST}
+            database: ${DATABASE_NAME}
+            user: ${DATABASE_NAME_USER}
+            password: ${DATABASE_PASSWORD}
+            migrations: true
+volumes:
+  data-prisma:
+  data-postgresql:
