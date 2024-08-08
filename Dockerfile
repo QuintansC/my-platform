@@ -1,13 +1,14 @@
-FROM node:latest
+#exec normal da imagem
+FROM node:lts-alpine
 
-WORKDIR /app
+ENV HOME=/app
+WORKDIR $HOME
 
 COPY package*.json ./
-
-COPY prisma/. /usr/src/app/prisma/.
-
-RUN yarn install
+RUN apk update && apk add --no-cache bash
+RUN yarn && yarn cache clean
 
 COPY . .
 
 CMD [ "yarn", "dev" ]
+

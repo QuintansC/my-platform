@@ -34,7 +34,7 @@ services:
 
     environment:
       PRISMA_CONFIG: |
-        port: 3001
+        port: 3000
         databases:
           default:
             host: ${DATABASE_HOST}
