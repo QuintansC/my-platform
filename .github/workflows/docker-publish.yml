@@ -1,0 +1,31 @@
+name: CI for My-Platform
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
+
+      - name: Build and Start Containers
+        run: docker-compose -p my-platform -f ./docker-compose.yml up -d
+
+      - name: Run tests or other commands
+        run: |
+          docker ps
+
+      - name: Tear down
+        if: always()
+        run: docker-compose -p my-platform -f ./docker-compose.yml down
