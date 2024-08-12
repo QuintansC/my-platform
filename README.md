@@ -99,13 +99,13 @@ npx prisma migrate dev --name init
 
 ```
 
-- Comando pra criar Minha Imagem Docker para Uso
-
-- Para composer
+- Para composer rodar o composer
 
 ```
 docker compose up --build
 ```
+
+- Comando pra criar Minha Imagem Docker para Uso
 
 ```
 docker run --name my-platform-node -p 3000:3000 -d my-platform
