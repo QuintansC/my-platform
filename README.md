@@ -4,7 +4,7 @@ Inteface de plataforma utilizando NextJS e Prisma
 
 ### Em desenvolvimento
 
-- [x] Kanban
+- [x] Implentar funcionalidades das tasks
 
 ### Features
 
