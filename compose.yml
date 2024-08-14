@@ -8,20 +8,22 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
 
     ports:
-      - "5433:${DATABASE_PORT}"
-      
+      - "5432:5432"
+
     expose:
-      - '5433'
-  
+      - "5432"
+
   prisma:
     container_name: prisma-my-platform
-    build: 
+    build:
       context: ./
       dockerfile: Dockerfile
 
     ports:
       - 3000:3000
 
+    volumes:
+      - ./:/app
     command: >
       bash -c '
         npx prisma generate --schema prisma/schema.prisma
@@ -42,6 +44,22 @@ services:
             user: ${DATABASE_NAME_USER}
             password: ${DATABASE_PASSWORD}
             migrations: true
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: my_pgadmin
+    restart: unless-stopped
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin:rw
+    depends_on:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=dev@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=dev123
+    ports:
+      - 8083:80
+
 volumes:
+  pgadmin_data:
   data-prisma:
   data-postgresql:

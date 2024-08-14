@@ -7,8 +7,3 @@ WORKDIR $HOME
 COPY package*.json ./
 RUN apk update && apk add --no-cache bash
 RUN yarn && yarn cache clean
-
-COPY . .
-
-CMD [ "yarn", "dev" ]
-

@@ -16,8 +16,15 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [x] Chat Page
 - [x] Backend
 - [x] Dockerizar dependencias
-- [ ] Inserir funcionalidades
+- [ ] Implentar funcionalidades das tasks
+- [ ] Implementar Funcionalidades
+- [ ] Backend
+- [ ] Dockerizar dependencias
+
 - [ ] KanBan
+
+- [ ] Inserir funcionalidades
+- [x] Prisma
 
 # Indices da aplicação
 
@@ -93,6 +100,12 @@ npx prisma migrate dev --name init
 ```
 
 - Comando pra criar Minha Imagem Docker para Uso
+
+- Para composer
+
+```
+docker compose up --build
+```
 
 ```
 docker run --name my-platform-node -p 3000:3000 -d my-platform
