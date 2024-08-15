@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,46 +8,58 @@ import CoverSignupPage  from "../../../../public/images/cover/cover-login-page.s
 import IconGoogleMark  from "../../../../public/images/icon/icon-google-mark.svg"
 import IconGitHubMark  from "../../../../public/images/icon/icon-github-mark.svg"
 import { signIn } from "next-auth/react";
+import { Users } from "@/app/api/user/UserModel";
+import Swal from 'sweetalert2';
 
 const SignUpComponent: React.FC = () => {
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-    emailVerified: new Date(),
-    image: '',
-    password: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  })
-
   const router = useRouter()
 
-  const setEmail = (email: string) => {
-    setUser(prevState => ({ ...prevState, email }))
-  }
+  const onSubmit = async (event: FormEvent<HTMLInputElement> | any) => {
+    event.preventDefault();
+    const formData: Users = {
+      name: event.target[0].value,
+      email: event.target[1].value,
+      password: event.target[2].value == event.target[3].value ? event.target[2].value : null,
+      emailVerified: null,
+      image: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
 
-  const setName = (name: string) => {
-    setUser(prevState => ({ ...prevState, name }))
-  }
-
-  const setPassword = (password: string) =>{
-    setUser(prevState => ({ ...prevState, password }))
-  }
-
-  const onSubmit = async () => {
     await fetch('/api/user/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       redirect: "follow",
-      body: JSON.stringify({ data: user }),
-    }).then(response => router.push("/auth/signin"))
+      body: JSON.stringify({ data: formData }),
+    }).then(response => {
+      if(response.status == 200){
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Criado com sucesso",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        router.push("/auth/signin")
+      }
+
+      if(response.status == 302){
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: response.statusText,
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+      router.push("/auth/signup")
+    })
   }
 
   return (
     <div className="flex items-center justify-center m-20">
-
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
@@ -85,16 +97,13 @@ const SignUpComponent: React.FC = () => {
                 Inscreva se no ArtFlame
               </h1>
 
-              <form>
+              <form id="test" onSubmit={onSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Nome
                   </label>
                   <div className="relative">
-                    <input
-                      value={user.name}
-                      onChange={(e)=>setName(e.target.value)}
-                      
+                    <input                      
                       type="text"
                       placeholder="Insira aqui seu nome completo"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -130,8 +139,6 @@ const SignUpComponent: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                      value={user.email}
-                      onChange={(e)=>setEmail(e.target.value)}
                       type="email"
                       placeholder="Insira seu email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -163,8 +170,6 @@ const SignUpComponent: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                      value={user.password}
-                      onChange={(e)=>setPassword(e.target.value)}
                       type="password"
                       placeholder="Insira sua senha"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -231,8 +236,7 @@ const SignUpComponent: React.FC = () => {
 
                 <div className="mb-5">
                   <button
-                    type="button"
-                    onClick={()=>signIn("google", { callbackUrl: '/dashboard'})}
+                    type="submit"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   >
                     Crie uma nova conta

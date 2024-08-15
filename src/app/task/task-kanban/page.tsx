@@ -2,17 +2,101 @@
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
 import Image from 'next/image';
-import React from 'react';
+import { useState } from 'react';
 
 import IconPlus from '../../../../public/images/icon/icon-plus.svg';
-import MoreOptions from '@/components/MoreOptions/MoreOptions';
-
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import DraggableItem from '@/components/Dnd/DragabbleItem';
 
 const KanbanComponent = () => {
-    const onDragEnd = () => {
 
+    const [column1, setColumn1] = useState([
+        {
+            index: 0,
+            draggableId: 'task3',
+            qntCheck: 2,
+        },
+        {
+            index: 1,
+            draggableId: 'task17',
+            qntCheck: 3,
+        },
+        {
+            index: 2,
+            draggableId: 'task28',
+            qntCheck: 1,
+        },
+        {
+            index: 3,
+            draggableId: 'task39',
+            qntCheck: 0,
+        },
+    ]);
+
+
+    const [column2, setColumn2] = useState([
+        {
+            index: 0,
+            draggableId: 'task2',
+            qntCheck: 2,
+        },
+        {
+            index: 1,
+            draggableId: 'task12',
+            qntCheck: 3,
+        },
+        {
+            index: 2,
+            draggableId: 'task22',
+            qntCheck: 1,
+        },
+        {
+            index: 3,
+            draggableId: 'task32',
+            qntCheck: 0,
+        },
+    ]);
+
+    const [column3, setColumn3] = useState([
+        {
+            index: 0,
+            draggableId: 'task1',
+            qntCheck: 2,
+        },
+        {
+            index: 1,
+            draggableId: 'task11',
+            qntCheck: 3,
+        },
+        {
+            index: 2,
+            draggableId: 'task21',
+            qntCheck: 1,
+        },
+        {
+            index: 3,
+            draggableId: 'task31',
+            qntCheck: 0,
+        },
+    ]);
+    
+
+     const reorder = (list: any, startIndex: number, endIndex: number): any => {
+            const result = Array.from(list);
+            const [removed] = result.splice(startIndex, 1);
+            result.splice(endIndex, 0, removed);
+
+        return result;
+    };
+
+
+    const onDragEnd = (e: any) => {
+        const { destination, source } = e;
+        if (!destination) {
+            return;
+        }
+        const newElement = reorder(column1, source.index, destination.index)
+        setColumn1(newElement)
     }
     return (
         <DefaultLayout>
@@ -22,19 +106,19 @@ const KanbanComponent = () => {
                         Tasks
                         <div className="flex flex-col gap-4 2xsm:flex-row 2xsm:items-center">   
                             <div className='flex -space-x-2'>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button type='button' title='tes' className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-07.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button type='button' title='tes' className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-08.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button type='button' title='tes' className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-09.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button type='button' title='tes' className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-10.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="flex h-9 w-9 items-center justify-center rounded-full border border-stroke bg-white text-primary dark:border-strokedark dark:bg-[#4f5e77] dark:text-white">
+                                <button type='button' title='tes' className="flex h-9 w-9 items-center justify-center rounded-full border border-stroke bg-white text-primary dark:border-strokedark dark:bg-[#4f5e77] dark:text-white">
                                     <Image src={'/images/icon/icon-plus.svg'} width={16} height={16} alt=''></Image>
                                 </button>
                             </div>
@@ -50,15 +134,21 @@ const KanbanComponent = () => {
                         <div className="mt-9 grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3">
                             <div className='swim-lane flex flex-col gap-5.5'>
                                 <h4 className="text-xl font-semibold text-black dark:text-white">To do (3)</h4>
-                                <Droppable droppableId="tasks">
+                                <Droppable 
+                                    droppableId="tasks"
+                                >
                                     {(provided) => (
-                                        <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                        <ul 
+                                            className='tasks' 
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps} 
+                                        >
                                             {provided.placeholder}
-                                            <DraggableItem key={1} draggableId="ta" qntCheck={1}/>
-                                            <DraggableItem key={3} draggableId="task" qntCheck={4}/>
-                                            <DraggableItem key={2} draggableId="tasks" qntCheck={3}/>
+                                            {column1?.map((e, index)=>{
+                                                return <DraggableItem  key={e.index + "s"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                            })}
                                         </ul>
-                                    )}
+                                    )} 
                                 </Droppable>                                
                             </div>
 
@@ -71,9 +161,15 @@ const KanbanComponent = () => {
                                     droppableId="tasks"
                                 >
                                     {(provided) => (
-                                        <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                        <ul 
+                                            className='tasks' 
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps} 
+                                        >
                                             {provided.placeholder}
-                                            <DraggableItem key={4} draggableId="tasks" qntCheck={1}/>
+                                            {column2?.map((e, index)=>{
+                                                return <DraggableItem  key={e.index + "f"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                            })}
                                         </ul>
                                     )}
                                 </Droppable>
@@ -86,9 +182,15 @@ const KanbanComponent = () => {
                                     droppableId="tasks"
                                 >
                                     {(provided) => (
-                                        <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                        <ul 
+                                            className='tasks' 
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps} 
+                                        >
                                             {provided.placeholder}
-                                            <DraggableItem key={4} draggableId="tasks" qntCheck={1}/>
+                                            {column3?.map((e, index)=>{
+                                                return <DraggableItem  key={e.index + "g"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                            })}
                                         </ul>
                                     )}
                                 </Droppable>
@@ -102,9 +204,15 @@ const KanbanComponent = () => {
                                 droppableId="tasks"
                             >
                                 {(provided) => (
-                                     <ul className='tasks' {...provided.droppableProps} ref={provided.innerRef}>
+                                    <ul
+                                        className='tasks' 
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps} 
+                                    >
                                         {provided.placeholder}
-                                        <DraggableItem key={4} draggableId="tasks" qntCheck={1}/>
+                                        {column2?.map((e, index)=>{
+                                            return <DraggableItem  key={e.index+ "t"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                        })}
                                     </ul>
                                 )}
                             </Droppable>

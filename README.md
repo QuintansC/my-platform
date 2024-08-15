@@ -89,6 +89,7 @@ yarn dev
 
 ```
 npx prisma migrate dev --name init
+
 ```
 
 - Comando pra criar Minha Imagem Docker para Uso

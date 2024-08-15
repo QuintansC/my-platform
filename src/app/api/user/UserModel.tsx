@@ -2,18 +2,18 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-interface Users {
-    name: string | null;
-    email: string | null;
+export interface Users {
+    name: string;
+    email: string;
     emailVerified: Date | null;
-    password: string | null;
-    image: string | null;
+    password: string;
+    image: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
-async function createUser(user: Users): Promise<Users> {
-    const createdUser: Users = await prisma.user.create({
+async function createUser(user: Users){
+    const createdUser = await prisma.user.create({
         data: {
             ...user
         }
@@ -22,8 +22,8 @@ async function createUser(user: Users): Promise<Users> {
     return createdUser;
 }
 
-async function getUserByEmail(emails: string): Promise<Users> {
-    const user: Users | any = await prisma.user.findUnique({
+async function getUserByEmail(emails: string) {
+    const user = await prisma.user.findUnique({
         where: {
             email: emails
         }
@@ -32,8 +32,8 @@ async function getUserByEmail(emails: string): Promise<Users> {
     return user;
 }
 
-async function updateUser(email: string, data: Partial<Users>): Promise<Users> {
-    const updatedUser: Users = await prisma.user.update({
+async function updateUser(email: string, data: Partial<Users>) {
+    const updatedUser = await prisma.user.update({
         where: {
             email,
         },
@@ -43,8 +43,8 @@ async function updateUser(email: string, data: Partial<Users>): Promise<Users> {
     return updatedUser;
 }
 
-async function deleteUser(id: string): Promise<Users> {
-    const deletedUser: Users = await prisma.user.delete({
+async function deleteUser(id: string) {
+    const deletedUser = await prisma.user.delete({
         where: {
             id,
         },

@@ -132,7 +132,10 @@ const Profile = () => {
                       fill=""
                     />
                   </svg>
-                  <input
+                 
+                </label>
+                 <input
+                    title="profileImage"
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
@@ -140,7 +143,6 @@ const Profile = () => {
                     id="profile"
                     className="sr-only"
                   />
-                </label>
               </div>
             </div>
             <div className="mt-4">

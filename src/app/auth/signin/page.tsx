@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
@@ -7,20 +7,36 @@ import { signIn } from "next-auth/react";
 import IconGitHubMark  from "../../../../public/images/icon/icon-github-mark.svg"
 import IconGoogleMark  from "../../../../public/images/icon/icon-google-mark.svg"
 import CoverLoginPage  from "../../../../public/images/cover/cover-login-page.svg"
+import { Users } from "@/app/api/user/UserModel";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const SignIn: React.FC = () => {
+  const router = useRouter()
+  const onSubmit = async (event: FormEvent<HTMLInputElement> | any) => {
+    event.preventDefault();
 
-  const [user, setUser] = useState({
-    email: '',
-    password: ''
-  })
-
-  const setEmail = (email: string) => {
-    setUser(prevState => ({ ...prevState, email }))
-  }
-
-  const setPassword = (password: string) =>{
-    setUser(prevState => ({ ...prevState, password }))
+    const formData: Users | any = {
+      email: event.target[0].value,
+      password: event.target[1].value
+    }
+    
+    await signIn("credentials", { 
+      email: formData.email, 
+      password: formData.password, 
+      callbackUrl: '/dashboard', 
+    }).then(response =>{
+      if(response?.status == 302){
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Logado com sucesso",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        router.push("/auth/signup")
+      }
+    })
   }
 
   return (
@@ -62,15 +78,13 @@ const SignIn: React.FC = () => {
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Entre em ArtFlame
               </h2>
-              <form>
+              <form onSubmit={onSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
                   <div className="relative">
                     <input
-                      value={user.email}
-                      onChange={(e)=>setEmail(e.target.value)}
                       type="email"
                       placeholder="Entre com seu email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -102,8 +116,6 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                      value={user.password}
-                      onChange={(e)=>setPassword(e.target.value)}
                       type="password"
                       placeholder="6+ Caracteres, 1 Letra Maiuscula"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -135,13 +147,7 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-5">
                   <button
-                    type="button"
-                    onClick={()=>signIn("credentials", { 
-                      email: user.email, 
-                      password: user.password, 
-                      callbackUrl: '/dashboard', 
-                      
-                    })}
+                    type="submit"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   >
                     Entrar com Login e Senha
