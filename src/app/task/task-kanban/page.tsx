@@ -2,65 +2,50 @@
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
 import Image from 'next/image';
-import { useState } from 'react';
-
 import IconPlus from '../../../../public/images/icon/icon-plus.svg';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import DraggableItem from '@/components/Dnd/DragabbleItem';
-import { getTaskById } from '@/app/api/tasks/TasksModel';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-const KanbanComponent = () => {
+const KanbanComponent = () => { 
+    const user = useSession()
+    useEffect(()=>{
+        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=To%20do`)
+        .then((res) => res.json())
+        .then((data) => {
+            setColumn1(data.task)
+        })
 
-    const [column1, setColumn1] = useState(getTaskById('12'))
+        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=In%20progress`)
+        .then((res) => res.json())
+        .then((data) => {
+            setColumn2(data.task)
+        })
 
-    const [column2, setColumn2] = useState([
-        {
-            index: 0,
-            draggableId: 'task2',
-            qntCheck: 2,
-        },
-        {
-            index: 1,
-            draggableId: 'task12',
-            qntCheck: 3,
-        },
-        {
-            index: 2,
-            draggableId: 'task22',
-            qntCheck: 1,
-        },
-        {
-            index: 3,
-            draggableId: 'task32',
-            qntCheck: 0,
-        },
-    ]);
+        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=Completed`)
+        .then((res) => res.json())
+        .then((data) => {
+            setColumn3(data.task)
+        })
+    }, [])
 
-    const [column3, setColumn3] = useState([
-        {
-            index: 0,
-            draggableId: 'task1',
-            qntCheck: 2,
-        },
-        {
-            index: 1,
-            draggableId: 'task11',
-            qntCheck: 3,
-        },
-        {
-            index: 2,
-            draggableId: 'task21',
-            qntCheck: 1,
-        },
-        {
-            index: 3,
-            draggableId: 'task31',
-            qntCheck: 0,
-        },
-    ]);
+    const [column1, setColumn1]  = useState([{
+        id_task: '',
+        qntCheck: 0
+    }])
+
+    const [column2, setColumn2]  = useState([{
+        id_task: '',
+        qntCheck: 0
+    }])
     
+    const [column3, setColumn3]  = useState([{
+        id_task: '',
+        qntCheck: 0
+    }])
 
-     const reorder = (list: any, startIndex: number, endIndex: number): any => {
+    const reorder = (list: any, startIndex: number, endIndex: number): any => {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
@@ -112,7 +97,7 @@ const KanbanComponent = () => {
                     <DragDropContext onDragEnd={onDragEnd}>
                         <div className="mt-9 grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3">
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">To do (3)</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">To do ({column1.length})</h4>
                                 <Droppable 
                                     droppableId="tasks"
                                 >
@@ -122,10 +107,9 @@ const KanbanComponent = () => {
                                             ref={provided.innerRef}
                                             {...provided.droppableProps} 
                                         >
-                                            {provided.placeholder}
-                                            {/* {column1?.map((e, index)=>{
-                                                return <DraggableItem  key={e.index + "s"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
-                                            })} */}
+                                            {column1?.map((e, index)=>{
+                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
+                                            })}
                                         </ul>
                                     )} 
                                 </Droppable>                                
@@ -133,7 +117,7 @@ const KanbanComponent = () => {
 
                         
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">In Progress (1)</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">In Progress ({column2.length})</h4>
                                 <Droppable 
                                     type="COLUMN"
                                     direction="horizontal"
@@ -147,14 +131,14 @@ const KanbanComponent = () => {
                                         >
                                             {provided.placeholder}
                                             {column2?.map((e, index)=>{
-                                                return <DraggableItem  key={e.index + "f"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                                return <DraggableItem  key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
                                             })}
                                         </ul>
                                     )}
                                 </Droppable>
                             </div>
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">Completed (1)</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">Completed ({column3.length})</h4>
                                 <Droppable 
                                     type="COLUMN"
                                     direction="horizontal"
@@ -168,7 +152,7 @@ const KanbanComponent = () => {
                                         >
                                             {provided.placeholder}
                                             {column3?.map((e, index)=>{
-                                                return <DraggableItem  key={e.index + "g"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
+                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
                                             })}
                                         </ul>
                                     )}
@@ -189,9 +173,9 @@ const KanbanComponent = () => {
                                         {...provided.droppableProps} 
                                     >
                                         {provided.placeholder}
-                                        {column2?.map((e, index)=>{
+                                        {/* {column2?.map((e, index)=>{
                                             return <DraggableItem  key={e.index+ "t"} index={e.index} draggableId={e.draggableId} qntCheck={e.qntCheck}/>
-                                        })}
+                                        })} */}
                                     </ul>
                                 )}
                             </Droppable>

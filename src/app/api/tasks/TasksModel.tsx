@@ -2,10 +2,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-interface Tasks {
-    id_task: string,     
-    index: string,     
-    draggableId: string,    
+export interface Tasks {
+    id_task: string,        
     authorId: string,
     qntCheck: number,
     status: string,
@@ -19,18 +17,26 @@ async function createTask(tasks: Tasks) {
           ...tasks
         }
     });
-
+    
     return createdTasks;
 }
 
-async function getTaskById(id: string) {
-    const tasks = await prisma.tasks.findMany({
-        where: {
-            authorId: id
-        }
-    });
+async function getTaskByEmailStatus(email: string,  status: string) {
 
-    return tasks;
+    const em = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    if(em){
+        const tasks = await prisma.tasks.findMany({
+            where: {
+                authorId: em.id,
+                status: status
+            }
+        });
+        return tasks;
+    };    
 }
 
 async function updateTask(id: string, data: Partial<Tasks>){
@@ -54,4 +60,4 @@ async function deleteTask(id: string): Promise<Tasks> {
     return deletedTask;
 }
 
-export { createTask, getTaskById, updateTask, deleteTask };
+export { createTask, getTaskByEmailStatus, updateTask, deleteTask };

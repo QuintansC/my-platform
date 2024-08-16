@@ -14,7 +14,6 @@ const DraggableItem: React.FC<DraggableItemProps> = (e) => {
         <Draggable
             draggableId={e.draggableId} 
             index={e.index}
-
         >
             {(provided) => (
                 <li 

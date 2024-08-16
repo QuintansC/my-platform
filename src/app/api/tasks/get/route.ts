@@ -1,9 +1,10 @@
-import { getTaskById } from "../TasksModel";
+import { getTaskByEmailStatus } from "../TasksModel";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const data = request.nextUrl.searchParams.get("id") || "";
-  const result = await getTaskById(data);
+  const email = request.nextUrl.searchParams.get("email") || "";
+  const status = request.nextUrl.searchParams.get("status") || "";
+  const result = await getTaskByEmailStatus(email, status);
 
   return NextResponse.json({
     message: "Task Buscada com sucesso",
