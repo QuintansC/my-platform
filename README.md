@@ -4,7 +4,7 @@ Inteface de plataforma utilizando NextJS e Prisma
 
 ### Em desenvolvimento
 
-- [x] Implentar funcionalidades das tasks
+- [x] Deploy na vercel
 
 ### Features
 
