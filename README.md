@@ -22,7 +22,6 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [ ] Backend
 - [ ] Dockerizar dependencias
 - [ ] KanBan
-- [ ] To do List
 
 # Indices da aplicação
 
