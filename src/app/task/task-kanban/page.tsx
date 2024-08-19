@@ -7,6 +7,7 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import DraggableItem from '@/components/Dnd/DragabbleItem';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Modal from '@/components/Modal/Modal';
 
 const KanbanComponent = () => { 
     const user = useSession()
@@ -182,6 +183,7 @@ const KanbanComponent = () => {
                         </div>
                     </DragDropContext>
             </div>
+            <Modal/>
         </DefaultLayout>
     );
 };
