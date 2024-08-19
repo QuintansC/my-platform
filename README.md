@@ -62,9 +62,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 
 - Aqui estao os passos que você precisa para instalar as dependencias.
 
-- Here are the steps you need to follow to install the dependencaies.
-
-1. After that **cd** into the template directory then run this command to install all the dependencies
+1. Depois de entrar no diretorio rode esse comando para instalar todas as dependencias
 
 ```
 npm install
