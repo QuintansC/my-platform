@@ -106,7 +106,7 @@ docker compose up --build
 docker run --name my-platform-node -p 3000:3000 -d my-platform
 ```
 
-- Para rodar o container docker
+- Para rodar o container dockerfile
 
 ```
 docker build -t my-platform .

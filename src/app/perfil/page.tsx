@@ -6,15 +6,13 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
-const Profile = () => {
+const Perfil = () => {
   const { update, data } = useSession()
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [src, setSrc] = useState<string | null | undefined>('')
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
 
       var oFReader = new FileReader();
       oFReader.readAsDataURL(event.target.files[0] || new Blob());
@@ -25,14 +23,12 @@ const Profile = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            fileName: selectedFile?.name,
+            fileName: event.target.files? event.target.files[0].name : '',
             fileContent: oFREvent.target?.result?.toString().split(',')[1], // Remove prefix from base64 string
             userLogged: data?.user?.email
           }),
         });
 
-        setSrc(URL.createObjectURL(selectedFile || new Blob()))
-        update({ image: URL.createObjectURL(selectedFile || new Blob()) })
         const {urlComplete} = await response.json()
         setSrc(urlComplete)
         update({ image: urlComplete })
@@ -161,19 +157,19 @@ const Profile = () => {
                   <span className="font-semibold text-black dark:text-white">
                     129K
                   </span>
-                  <span className="text-sm">Followers</span>
+                  <span className="text-sm">Seguidores</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                   <span className="font-semibold text-black dark:text-white">
                     2K
                   </span>
-                  <span className="text-sm">Following</span>
+                  <span className="text-sm">Seguindo</span>
                 </div>
               </div>
 
               <div className="mx-auto max-w-180">
                 <h4 className="font-semibold text-black dark:text-white">
-                  About Me
+                  Sobre mim
                 </h4>
                 <p className="mt-4.5">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -186,7 +182,7 @@ const Profile = () => {
 
               <div className="mt-6.5">
                 <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                  Follow me on
+                  Me sigam nas Redes Sociais
                 </h4>
                 <div className="flex items-center justify-center gap-3.5">
                   <Link
@@ -344,4 +340,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Perfil;

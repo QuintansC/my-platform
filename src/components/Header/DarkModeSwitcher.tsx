@@ -11,6 +11,7 @@ const DarkModeSwitcher = () => {
         }`}
       >
         <input
+          placeholder="switcher"
           type="checkbox"
           onChange={() => {
             if (typeof setColorMode === "function") {
