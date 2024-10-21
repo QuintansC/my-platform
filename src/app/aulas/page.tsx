@@ -5,16 +5,44 @@ import React from "react";
 import CarouselVideos from "@/components/CarouselVideos";
 
 export const metadata: Metadata = {
-  title: "Next.js Chart | ArtFlame - Aulas",
+  title: "ArtFlame - Aulas",
   description:
     "Essa é uma pagina de aulas",
 };
 
+
 const BasicChartPage: React.FC = () => {
+  const teste = [
+    {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    },
+     {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    },
+    {
+      teste: "teste"
+    }
+  ]
+
   return (
     <DefaultLayout>
-        <CarouselVideos titulo="titulo" subtitulo="subtitulo"></CarouselVideos>
-        <CarouselVideos titulo="titulo" subtitulo="subtitulo"></CarouselVideos>
+        <CarouselVideos titulo="titulo" subtitulo="subtitulo" videos={teste}></CarouselVideos>
+        <CarouselVideos titulo="titulo" subtitulo="subtitulo" videos={teste}></CarouselVideos>
     </DefaultLayout>
   );
 };
