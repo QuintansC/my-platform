@@ -23,13 +23,8 @@ async function createUser(user: Users){
 }
 
 async function getUserByEmail(emails: string) {
-    const user = await prisma.user.findUnique({
-        where: {
-            email: emails
-        }
-    });
-
-    return user;
+    const user = await prisma.user.findUnique({where: {email: emails}})
+    return user?.id;
 }
 
 async function updateUser(email: string, data: Partial<Users>) {

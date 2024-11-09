@@ -1,7 +1,9 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function DefaultLayout({
   children,
@@ -9,8 +11,12 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  return (
-    <>
+  const session = useSession()
+
+  if(session.status == "unauthenticated"){
+    redirect('/') 
+  } else{
+    return (<>
       <div className="flex">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
@@ -22,6 +28,7 @@ export default function DefaultLayout({
           </main>
         </div>
       </div>
-    </>
-  );  
+    </>);  
+  }
+  
 }

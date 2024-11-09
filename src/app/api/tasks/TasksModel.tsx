@@ -9,6 +9,7 @@ export interface Tasks {
     status: string,
     createdAt: Date, 
     updatedAt: Date  
+    description: string
 }
 
 async function createTask(tasks: Tasks) {

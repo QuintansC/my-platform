@@ -10,26 +10,29 @@ import { useSession } from 'next-auth/react';
 import Modal from '@/components/Modal/Modal';
 
 const KanbanComponent = () => { 
-    const user = useSession()
+    const [open, setOpen] = useState(false)
+    const session = useSession()
     useEffect(()=>{
-        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=To%20do`)
-        .then((res) => res.json())
-        .then((data) => {
-            setColumn1(data.task)
-        })
+        if(session){
+            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=To%20do`)
+            .then((res) => res.json())
+            .then((data) => {
+                setColumn1(data.task)
+            })
 
-        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=In%20progress`)
-        .then((res) => res.json())
-        .then((data) => {
-            setColumn2(data.task)
-        })
+            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=In%20progress`)
+            .then((res) => res.json())
+            .then((data) => {
+                setColumn2(data.task)
+            })
 
-        fetch(`/api/tasks/get?email=${user.data?.user?.email}&status=Completed`)
-        .then((res) => res.json())
-        .then((data) => {
-            setColumn3(data.task)
-        })
-    }, [])
+            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=Completed`)
+            .then((res) => res.json())
+            .then((data) => {
+                setColumn3(data.task)
+            })
+        }
+    }, [session])
 
     const [column1, setColumn1]  = useState([{
         id_task: '',
@@ -88,7 +91,7 @@ const KanbanComponent = () => {
                                 </button>
                             </div>
                             <div>
-                                <button className='flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80'>
+                                <button onClick={()=>setOpen(!open)} className='flex items-center gap-2 rounded bg-primary px-4.5 py-2 font-medium text-white hover:bg-opacity-80'>
                                    <Image className='fill-current' src={IconPlus} width={20} height={20} alt=''></Image>
                                     Add task
                                 </button>
@@ -98,7 +101,7 @@ const KanbanComponent = () => {
                     <DragDropContext onDragEnd={onDragEnd}>
                         <div className="mt-9 grid grid-cols-1 gap-7.5 sm:grid-cols-2 xl:grid-cols-3">
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">To do ({column1.length})</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">To do ({column1?.length? column1.length: 0})</h4>
                                 <Droppable 
                                     droppableId="tasks"
                                 >
@@ -118,7 +121,7 @@ const KanbanComponent = () => {
 
                         
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">In Progress ({column2.length})</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">In Progress ({column2?.length ? column2.length: 0})</h4>
                                 <Droppable 
                                     type="COLUMN"
                                     direction="horizontal"
@@ -139,7 +142,7 @@ const KanbanComponent = () => {
                                 </Droppable>
                             </div>
                             <div className='swim-lane flex flex-col gap-5.5'>
-                                <h4 className="text-xl font-semibold text-black dark:text-white">Completed ({column3.length})</h4>
+                                <h4 className="text-xl font-semibold text-black dark:text-white">Completed ({column3?.length? column3.length: 0})</h4>
                                 <Droppable 
                                     type="COLUMN"
                                     direction="horizontal"
@@ -183,7 +186,8 @@ const KanbanComponent = () => {
                         </div>
                     </DragDropContext>
             </div>
-            <Modal/>
+            <Modal open={open} setOpen={setOpen} session={session} />
+
         </DefaultLayout>
     );
 };

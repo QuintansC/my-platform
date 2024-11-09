@@ -1,7 +1,11 @@
 "use client";
 import React, { useState } from "react";
 
-const SelectGroupTwo: React.FC = () => {
+interface SelectGroupTwoOptions {
+  title: string
+}
+
+const SelectGroupTwo: React.FC<SelectGroupTwoOptions> = ({title}) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -12,7 +16,7 @@ const SelectGroupTwo: React.FC = () => {
   return (
     <div>
       <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-        Select Country
+        Qual status da tarefa?
       </label>
 
       <div className="relative z-20 bg-white dark:bg-form-input">
@@ -48,6 +52,7 @@ const SelectGroupTwo: React.FC = () => {
         </span>
 
         <select
+          title={title}
           value={selectedOption}
           onChange={(e) => {
             setSelectedOption(e.target.value);
@@ -57,17 +62,14 @@ const SelectGroupTwo: React.FC = () => {
             isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >
-          <option value="" disabled className="text-body dark:text-bodydark">
-            Select Country
+          <option value="To Do" className="text-body dark:text-bodydark">
+            To Do
           </option>
-          <option value="USA" className="text-body dark:text-bodydark">
-            USA
+          <option value="In progress" className="text-body dark:text-bodydark">
+            In Progress
           </option>
-          <option value="UK" className="text-body dark:text-bodydark">
-            UK
-          </option>
-          <option value="Canada" className="text-body dark:text-bodydark">
-            Canada
+          <option value="Completed" className="text-body dark:text-bodydark">
+            Done
           </option>
         </select>
 

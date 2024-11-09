@@ -70,7 +70,8 @@ model Tasks {
   author        User       @relation(fields: [authorId], references: [id])
   authorId      String     
   qntCheck      Int        
-  status        String     
+  status        String 
+  description   String     
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }

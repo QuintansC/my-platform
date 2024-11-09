@@ -1,27 +1,61 @@
 'use client'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import SelectGroupTwo from '../SelectGroup/SelectGroupTwo'
+interface ModalOptions {
+  setOpen: Dispatch<SetStateAction<boolean>>
+  open: boolean
+  session: any
+}
 
-import { useState } from 'react'
-import FormElements from '../FormElements'
+export default function Modal({ setOpen, open, session}: ModalOptions) {
+  const [authorID, setAuthorID] = useState('') 
 
-export default function Modal() {
-  const [open, setOpen] = useState(true)
+  const formRef = useRef<any>()
+   useEffect(()=>{
+      fetch(`/api/user/get?email=${session.data?.user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAuthorID(data.user)
+      })
+    })
+
+    const onSubmit = ()=>{
+      //Inserir os dados em um gerenciador de estado também para atualizar no componente pai sem ter que consultar novamente
+      //Inserindo os dados na api
+      fetch(`/api/tasks/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          authorId: authorID,
+          qntCheck: Number(formRef.current[0].value),
+          status: formRef.current[1].value,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          description: formRef.current[2].value
+        }),
+      }).then((e)=>console.log(e))
+    }
 
   return (
-    <div className='absolute top-30 m-auto w-full max-w-180 rounded-sm border border-stroke bg-gray p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10'>
-        <div className='bg-slate-600'></div>
-        <form>
+    <div className={`absolute ${open?'visible':'hidden'} top-30 m-auto w-full max-w-180 rounded-sm border border-stroke bg-gray p-4 shadow-default dark:border-strokedark dark:bg-meta-4 sm:p-8 xl:p-10`}>
+        <div className='bg-slate-600'> 
+          <button onClick={()=>setOpen(!open)}>CLose</button>
+          </div>
+          <form ref={formRef}>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Titulo da Task
+                  Numero de checkbox da task
                 </label>
                 <input
-                  type="text"
-                  placeholder="Titulo da Task"
+                  type="number"
+                  placeholder="Numero de checkbox da Task"
                   className="w-full rounded-sm border border-stroke bg-white px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-boxdark dark:text-white dark:focus:border-primary"
                 />
               </div>
-
+              <SelectGroupTwo title={'Status'} />
               <div>
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Descrição da task
@@ -31,8 +65,16 @@ export default function Modal() {
                   className="w-full rounded-sm border border-stroke bg-white px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-boxdark dark:text-white dark:focus:border-primary"
                 />
               </div>
+              <button
+                type='button'
+                onClick={onSubmit}
+                className="w-full rounded-sm border border-stroke bg-white px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-boxdark dark:text-white dark:focus:border-primary"
+              > 
+                Criar Task
+              </button>
             </div>
         </form>
     </div>
   )
 }
+
