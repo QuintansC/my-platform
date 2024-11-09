@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getServerSession } from 'next-auth';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ export interface Tasks {
     qntCheck: number,
     status: string,
     createdAt: Date, 
-    updatedAt: Date  
+    updatedAt: Date,  
     description: string
 }
 
@@ -22,11 +23,11 @@ async function createTask(tasks: Tasks) {
     return createdTasks;
 }
 
-async function getTaskByEmailStatus(email: string,  status: string) {
-
+async function getTaskByEmailStatus(status: string) {
+    const session = await getServerSession()
     const em = await prisma.user.findUnique({
         where: {
-            email: email
+            email: session?.user?.email || ''
         }
     })
     if(em){

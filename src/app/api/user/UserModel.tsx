@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getServerSession } from 'next-auth';
 
 const prisma = new PrismaClient();
 
@@ -22,8 +23,9 @@ async function createUser(user: Users){
     return createdUser;
 }
 
-async function getUserByEmail(emails: string) {
-    const user = await prisma.user.findUnique({where: {email: emails}})
+async function getUserByEmail() {
+    const session = await getServerSession()
+    const user = await prisma.user.findUnique({where: {email: session?.user?.email || ''}})
     return user?.id;
 }
 

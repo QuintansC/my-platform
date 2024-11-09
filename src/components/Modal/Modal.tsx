@@ -1,6 +1,7 @@
 'use client'
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import SelectGroupTwo from '../SelectGroup/SelectGroupTwo'
+import useTaskStore from '../Store/useDataModal'
 interface ModalOptions {
   setOpen: Dispatch<SetStateAction<boolean>>
   open: boolean
@@ -9,19 +10,17 @@ interface ModalOptions {
 
 export default function Modal({ setOpen, open, session}: ModalOptions) {
   const [authorID, setAuthorID] = useState('') 
-
+  const { updateAllTasks, updateColumn1, updateColumn2, updateColumn3 } = useTaskStore()
   const formRef = useRef<any>()
    useEffect(()=>{
-      fetch(`/api/user/get?email=${session.data?.user?.email}`)
+      fetch(`/api/user/get`)
       .then((res) => res.json())
       .then((data) => {
         setAuthorID(data.user)
-      })
+      })      
     })
 
     const onSubmit = ()=>{
-      //Inserir os dados em um gerenciador de estado também para atualizar no componente pai sem ter que consultar novamente
-      //Inserindo os dados na api
       fetch(`/api/tasks/create`, {
         method: 'POST',
         headers: {
@@ -35,7 +34,11 @@ export default function Modal({ setOpen, open, session}: ModalOptions) {
           updatedAt: new Date(),
           description: formRef.current[2].value
         }),
-      }).then((e)=>console.log(e))
+      })
+      .then((e)=>e.json())
+      .then((e)=>{
+        updateAllTasks(updateColumn1, updateColumn2, updateColumn3)
+      })
     }
 
   return (

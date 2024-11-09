@@ -21,19 +21,19 @@ const KanbanComponent = () => {
                         <div className="flex flex-col gap-4 2xsm:flex-row 2xsm:items-center">
                             
                             <div className='flex -space-x-2'>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button title="user1" className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-07.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button title="user2"  className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-08.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button title="user3"  className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-09.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
+                                <button title="user4"  className="h-9 w-9 rounded-full border-2 border-white dark:border-boxdark">
                                     <Image src={'/images/user/user-10.png'} width="36" height="36" alt="" />
                                 </button>
-                                <button className="flex h-9 w-9 items-center justify-center rounded-full border border-stroke bg-white text-primary dark:border-strokedark dark:bg-[#4f5e77] dark:text-white">
+                                <button title="user5"  className="flex h-9 w-9 items-center justify-center rounded-full border border-stroke bg-white text-primary dark:border-strokedark dark:bg-[#4f5e77] dark:text-white">
                                     <Image src={'/images/icon/icon-plus.svg'} width={16} height={16} alt=''></Image>
                                 </button>
                             </div>

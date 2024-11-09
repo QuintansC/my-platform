@@ -62,7 +62,7 @@ const SelectGroupTwo: React.FC<SelectGroupTwoOptions> = ({title}) => {
             isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >
-          <option value="To Do" className="text-body dark:text-bodydark">
+          <option value="To do" className="text-body dark:text-bodydark">
             To Do
           </option>
           <option value="In progress" className="text-body dark:text-bodydark">

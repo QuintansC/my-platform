@@ -2,11 +2,10 @@ import { getUserByEmail } from "../UserModel";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const email = request.nextUrl.searchParams.get("email") || "";
-  const result = await getUserByEmail(email);
+  const result = await getUserByEmail();
 
   return NextResponse.json({
-    message: "Task Buscada com sucesso",
+    message: "User Buscado com sucesso",
     user: result,
   });
 }

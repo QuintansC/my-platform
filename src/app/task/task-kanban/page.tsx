@@ -8,46 +8,16 @@ import DraggableItem from '@/components/Dnd/DragabbleItem';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Modal from '@/components/Modal/Modal';
+import useTaskStore from '@/components/Store/useDataModal';
 
 const KanbanComponent = () => { 
     const [open, setOpen] = useState(false)
     const session = useSession()
+    const {column1, column2, column3, updateColumn1, updateColumn2, updateColumn3, updateAllTasks } = useTaskStore()
+
     useEffect(()=>{
-        if(session){
-            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=To%20do`)
-            .then((res) => res.json())
-            .then((data) => {
-                setColumn1(data.task)
-            })
-
-            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=In%20progress`)
-            .then((res) => res.json())
-            .then((data) => {
-                setColumn2(data.task)
-            })
-
-            fetch(`/api/tasks/get?email=${session.data?.user?.email}&status=Completed`)
-            .then((res) => res.json())
-            .then((data) => {
-                setColumn3(data.task)
-            })
-        }
-    }, [session])
-
-    const [column1, setColumn1]  = useState([{
-        id_task: '',
-        qntCheck: 0
-    }])
-
-    const [column2, setColumn2]  = useState([{
-        id_task: '',
-        qntCheck: 0
-    }])
-    
-    const [column3, setColumn3]  = useState([{
-        id_task: '',
-        qntCheck: 0
-    }])
+        updateAllTasks(updateColumn1, updateColumn2, updateColumn3)
+    }, [])
 
     const reorder = (list: any, startIndex: number, endIndex: number): any => {
         const result = Array.from(list);
@@ -64,7 +34,7 @@ const KanbanComponent = () => {
             return;
         }
         const newElement = reorder(column1, source.index, destination.index)
-        setColumn1(newElement)
+        updateColumn1(newElement)
     }
     return (
         <DefaultLayout>
@@ -105,17 +75,22 @@ const KanbanComponent = () => {
                                 <Droppable 
                                     droppableId="tasks"
                                 >
-                                    {(provided) => (
-                                        <ul 
-                                            className='tasks' 
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps} 
-                                        >
-                                            {column1?.map((e, index)=>{
-                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
-                                            })}
-                                        </ul>
-                                    )} 
+                                    {(provided) => {
+                                        console.log(column1)
+                                        console.log(column2)
+                                        console.log(column3)
+                                        return (
+                                            <ul 
+                                                className='tasks' 
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps} 
+                                            >
+                                                {column1?.map((e, index)=>{
+                                                    return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e?.id_task} qntCheck={e?.qntCheck} description={e?.description} />
+                                                })}
+                                            </ul>
+                                        )} 
+                                    }
                                 </Droppable>                                
                             </div>
 
@@ -135,7 +110,7 @@ const KanbanComponent = () => {
                                         >
                                             {provided.placeholder}
                                             {column2?.map((e, index)=>{
-                                                return <DraggableItem  key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
+                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e?.id_task} qntCheck={e?.qntCheck}  description={e?.description} />  
                                             })}
                                         </ul>
                                     )}
@@ -156,7 +131,7 @@ const KanbanComponent = () => {
                                         >
                                             {provided.placeholder}
                                             {column3?.map((e, index)=>{
-                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e.id_task} qntCheck={e.qntCheck}/>
+                                                return <DraggableItem key={`k-${index}`} index={`item-${index}`} draggableId={e?.id_task} qntCheck={e?.qntCheck} description={e?.description}/>
                                             })}
                                         </ul>
                                     )}
