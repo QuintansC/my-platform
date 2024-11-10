@@ -2,9 +2,13 @@
 
 Inteface de plataforma utilizando NextJS e Prisma
 
+<img src="public/images/logo/logo.png" width='340px' height='150px'>
+
 ### Em desenvolvimento
 
-- [x] Deploy na vercel
+- [x] Implentar funcionalidades das tasks
+- [x] Backend
+- [x] KanBan
 
 ### Features
 
@@ -17,11 +21,9 @@ Inteface de plataforma utilizando NextJS e Prisma
 - [x] Backend
 - [x] Dockerizar dependencias
 - [x] Prisma
-- [ ] Implentar funcionalidades das tasks
+- [x] Deploy na vercel
+- [x] Dockerizar dependencias
 - [ ] Implementar Funcionalidades
-- [ ] Backend
-- [ ] Dockerizar dependencias
-- [ ] KanBan
 
 # Indices da aplicação
 
@@ -29,17 +31,10 @@ Inteface de plataforma utilizando NextJS e Prisma
 
 - [Features](#Features)
 - [Tecnologias](#tecnologias)
-- [Instalação](#instalação)
-- [Como usar](#comandos)
-- [Sobre](#Detalhes-da-aplicação)
+- [Como usar](#Comandos-para-utilitários)
+- [Instalação](#Installation)
+- [Imagens da Aplicação](#Detalhes-da-aplicação)
 <!--te-->
-
-<details>
-  <summary>Telas da aplicação</summary>
-    <img src="public/images/README/home.png" width='340px' height='150px'>
-    <img src="public/images/README/cadastro.jpeg" width='340px' height='150px'>
-    <img src="public/images/README/login.jpeg" width='340px' height='150px'>
-</details>
 
 ## Tecnologias
 
@@ -85,7 +80,7 @@ or
 yarn dev
 ```
 
-# Comandos para utilitarios
+# Comandos para utilitários
 
 - Para rodar as migration
 
@@ -111,3 +106,19 @@ docker run --name my-platform-node -p 3000:3000 -d my-platform
 ```
 docker build -t my-platform .
 ```
+
+# Detalhes da aplicação
+
+<details>
+  <summary>Telas da aplicação</summary>
+    <img src="public/images/application/ecomerceDash.png" width='640px' height='350px'>
+    <img src="public/images/application/kanban.png" width='640px' height='350px'>
+    <img src="public/images/application/calendario.png" width='640px' height='350px'>
+    <img src="public/images/application/list.png" width='640px' height='350px'>
+    <img src="public/images/application/ecomerceDashWhite.png" width='640px' height='350px'>
+    <img src="public/images/application/kanbanWhite.png" width='640px' height='350px'>
+    <img src="public/images/application/calendarioWhite.png" width='640px' height='350px'>
+    <img src="public/images/application/listWhite.png" width='640px' height='350px'>
+    <img src="public/images/application/loginPage.png" width='640px' height='350px'>
+    <img src="public/images/application/registerPage.png" width='640px' height='350px'>
+</details>
